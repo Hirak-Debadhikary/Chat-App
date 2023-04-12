@@ -1,0 +1,16 @@
+{
+  "name": "mern-chat_app",
+  "version": "1.0.0",
+  "description": "Chat App",
+  "main": "server.js",
+  "scripts": {
+    "start": "nodemon backend/server.js"
+  },
+  "author": "Hirak Debadhikary",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "nodemon": "^2.0.22"
+  }
+}
