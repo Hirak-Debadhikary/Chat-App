@@ -1,38 +1,12 @@
-// Verson 0.0.0.1
-
-// const express = require("express");
-// const dotenv = require("dotenv");
-
-// const { chats } = require("./data/data.js");
-
-// const app = express();
-// dotenv.config();
-
-// const PORT = process.env.PORT || 3000;
-
-// app.get("/", (req, res) => {
-//   res.send("Welcome");
-// });
-
-// app.get("/api/chat", (req, res) => {
-//   res.send(chats);
-// });
-
-// app.get("/api/chat/:id", (req, res) => {
-//   //   console.log(req.params.id);
-//   const signleChat = chats.find((chat) => chat._id === req.params.id);
-//   res.send(signleChat);
-// });
-
-// app.listen(PORT, console.log(`listening on port ${PORT}`));
-
 // Verson 0.0.0.2
 const express = require("express");
 const dotenv = require("dotenv");
 const { chats } = require("./data/data.js");
+const connectDB = require("./config/db.js");
 
 const app = express();
 dotenv.config(); // loads environment variables from a .env file
+connectDB(); // import connectDB from config/db.js
 
 const PORT = process.env.PORT || 3000; // sets the server port
 
