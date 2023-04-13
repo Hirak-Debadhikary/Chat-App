@@ -1,3 +1,5 @@
+import "./App.css";
+
 import { Route, Routes } from "react-router-dom";
 import HomeComponent from "./Components/Pages/HomeComponent";
 import ChatComponent from "./Components/Pages/ChatComponent";
