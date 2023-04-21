@@ -4,6 +4,10 @@ const dotenv = require("dotenv");
 const { chats } = require("./data/data.js");
 const connectDB = require("./config/db.js");
 const userRoutes = require("./routes/userRoutes");
+const {
+  handleNotFound,
+  handleError,
+} = require("./middleware/errorMiddleware.js");
 
 const app = express();
 dotenv.config(); // loads environment variables from a .env file
@@ -19,6 +23,9 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/user", userRoutes);
+
+app.use(handleNotFound);
+app.use(handleError);
 
 // Starts the server
 app.listen(PORT, () => {
