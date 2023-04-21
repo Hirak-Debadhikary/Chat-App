@@ -3,10 +3,13 @@ const express = require("express");
 const dotenv = require("dotenv");
 const { chats } = require("./data/data.js");
 const connectDB = require("./config/db.js");
+const userRoutes = require("./routes/userRoutes");
 
 const app = express();
 dotenv.config(); // loads environment variables from a .env file
 connectDB(); // import connectDB from config/db.js
+
+app.use(express.json());
 
 const PORT = process.env.PORT || 3000; // sets the server port
 
@@ -15,19 +18,7 @@ app.get("/", (req, res) => {
   res.status(200).send("Welcome to the API!"); // sends a response message to the client
 });
 
-// Route for retrieving all chats
-app.get("/api/chat", (req, res) => {
-  res.status(200).json(chats); // sends a JSON response containing all chats
-});
-
-// Route for retrieving a single chat by ID
-app.get("/api/chat/:id", (req, res) => {
-  const chat = chats.find((chat) => chat._id === req.params.id); // searches for the chat with the specified ID
-  if (!chat) {
-    return res.status(404).json({ message: "Chat not found" }); // sends a 404 response if chat not found
-  }
-  res.status(200).json(chat); // sends a JSON response containing the chat
-});
+app.use("/api/user", userRoutes);
 
 // Starts the server
 app.listen(PORT, () => {
