@@ -6,8 +6,11 @@ import {
   InputGroup,
   InputRightElement,
   VStack,
+  useToast,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const SignupComponemt = () => {
   // useState hooks to manage the state of the form inputs
@@ -16,6 +19,9 @@ const SignupComponemt = () => {
   const [password, setPassword] = useState("");
   const [comfirmpassword, setComfirmpassword] = useState("");
   const [picture, setPicture] = useState("");
+  const [loading, setLoading] = useState(false);
+  const toast = useToast();
+  const navigate = useNavigate();
 
   // useState hooks to manage the state of the password visibility toggles
   const [showPassword, setShowPassword] = useState(false);
@@ -32,10 +38,117 @@ const SignupComponemt = () => {
   };
 
   // function to post user picture to the server
-  const postDetails = (picture) => {};
+  const postDetails = (pictures) => {
+    setLoading(true);
+    if (!pictures) {
+      toast({
+        title: "Please select a picture",
+        description: "Warning",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+        position: "bottom",
+      });
+      setLoading(false);
+      return;
+    }
+    if (pictures.type === "image/jpeg" || pictures.type === "image/png") {
+      const data = new FormData();
+      data.append("file", pictures);
+      data.append("upload_preset", "Chat-App-TalkLoop");
+      data.append("cloud_name", "ddgtt4mxk");
+      fetch("https://api.cloudinary.com/v1_1/ddgtt4mxk/image/upload", {
+        method: "POST",
+        body: data,
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(data);
+          setPicture(data.url);
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.error(error);
+          setLoading(false);
+        });
+    } else {
+      toast({
+        title: "Please select a picture in JPEG or PNG format",
+        description: "Warning",
+        status: "error",
+        duration: 4000,
+        isClosable: true,
+        position: "bottom",
+      });
+      setLoading(false);
+    }
+  };
 
   // function to handle form submission
-  const handleSubmit = () => {};
+  const handleSubmit = async () => {
+    setLoading(true);
+    if (!name || !email || !password || !comfirmpassword) {
+      toast({
+        title: "Please fill all the fields",
+        description: "Warning",
+        status: "error",
+        duration: 4000,
+        isClosable: true,
+        position: "left",
+      });
+      setLoading(false);
+      return;
+    }
+    if (password !== comfirmpassword) {
+      toast({
+        title: "Password is not match",
+        description: "Warning",
+        status: "error",
+        duration: 4000,
+        isClosable: true,
+        position: "bottom",
+      });
+      return;
+    }
+    try {
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      };
+      const { data } = await axios.post(
+        "/api/user",
+        {
+          name,
+          email,
+          password,
+          picture,
+        },
+        config
+      );
+      toast({
+        title: "SignUp Success",
+        description: "Register successful",
+        status: "success",
+        duration: 4000,
+        isClosable: true,
+        position: "bottom",
+      });
+      localStorage.setItem("userData", JSON.stringify(data));
+      setLoading(false);
+      navigate("/chats");
+    } catch (error) {
+      toast({
+        title: "Error Occured!!",
+        description: error.message.data.message,
+        status: "error",
+        duration: 4000,
+        isClosable: true,
+        position: "bottom",
+      });
+      setLoading(false);
+    }
+  };
 
   // JSX code for the signup form
   return (
@@ -118,11 +231,11 @@ const SignupComponemt = () => {
           color: "black",
         }}
         onClick={handleSubmit}
+        isLoading={loading}
       >
         Ragister
       </Button>
     </VStack>
   );
 };
-
 export default SignupComponemt;

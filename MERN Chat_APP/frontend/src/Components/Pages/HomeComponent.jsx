@@ -19,7 +19,7 @@ const HomeComponent = () => {
         display="flex"
         justifyContent="center"
         p={3}
-        // bg="transparent"
+        bg="white"
         w="100%"
         // margin="40px 0px 0px 0px"
         marginTop="3rem"
@@ -44,6 +44,7 @@ const HomeComponent = () => {
       </Box>
       <Box
         // bg="transparent"
+        bg="white"
         w="100%"
         p={4}
         borderRadius="lg"
