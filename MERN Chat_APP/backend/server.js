@@ -3,7 +3,8 @@ const express = require("express");
 const dotenv = require("dotenv");
 const { chats } = require("./data/data.js");
 const connectDB = require("./config/db.js");
-const userRoutes = require("./routes/userRoutes");
+const userRoutes = require("./routes/userRoutes.js");
+const chatRoutes = require("./routes/userRoutes.js");
 const {
   handleNotFound,
   handleError,
@@ -23,6 +24,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/user", userRoutes);
+app.use("/api/chat", chatRoutes);
 
 app.use(handleNotFound);
 app.use(handleError);

@@ -65,4 +65,26 @@ const loginUser = asyncHandler(async (req, res) => {
   });
 });
 
-module.exports = { registerUser, loginUser };
+// Define a route handler to get all users that match a search query
+const allUsers = asyncHandler(async (req, res) => {
+  // Extract the search query parameter from the request
+  const keyword = req.query.search
+    ? {
+        $or: [
+          { name: { $regex: req.query.search, $options: "i" } },
+          { email: { $regex: req.query.search, $options: "i" } },
+        ],
+      }
+    : {};
+
+  // Find all users that match the search query, excluding the current user
+  const users = await User.find({ ...keyword, _id: { $ne: req.user._id } });
+
+  // Send the list of users in the response
+  res.send(users);
+});
+
+// Export the route handler function
+module.exports = { allUsers };
+
+module.exports = { registerUser, loginUser, allUsers };
