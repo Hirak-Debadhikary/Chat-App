@@ -33,7 +33,7 @@ const LoginComponent = () => {
       toast({
         title: "Please enter your email and password",
         description: "Wrong email or password",
-        status: "error",
+        status: "warning",
         duration: 4000,
         isClosable: true,
         position: "bottom",
@@ -69,7 +69,7 @@ const LoginComponent = () => {
     } catch (error) {
       toast({
         title: "Error Occured!!",
-        description: error.message.data.message,
+        description: error.response.data.message,
         status: "error",
         duration: 4000,
         isClosable: true,

@@ -128,7 +128,7 @@ const SignupComponemt = () => {
       );
       toast({
         title: "SignUp Success",
-        description: "Register successful",
+        description: "Go to Login Section",
         status: "success",
         duration: 4000,
         isClosable: true,
@@ -136,11 +136,11 @@ const SignupComponemt = () => {
       });
       localStorage.setItem("userData", JSON.stringify(data));
       setLoading(false);
-      navigate("/chats");
+      // navigate("/chats");
     } catch (error) {
       toast({
         title: "Error Occured!!",
-        description: error.message.data.message,
+        description: error.response.data.message,
         status: "error",
         duration: 4000,
         isClosable: true,
@@ -154,7 +154,7 @@ const SignupComponemt = () => {
   return (
     <VStack gap="0.5rem">
       {/* Name input field */}
-      <FormControl isRequired>
+      <FormControl id="name" isRequired>
         <FormLabel>Name</FormLabel>
         <Input
           type="name"
@@ -164,7 +164,7 @@ const SignupComponemt = () => {
       </FormControl>
 
       {/* Email input field  */}
-      <FormControl isRequired>
+      <FormControl id="email" isRequired>
         <FormLabel>Eame</FormLabel>
         <Input
           type="email"
@@ -174,7 +174,7 @@ const SignupComponemt = () => {
       </FormControl>
 
       {/* Passrord input field */}
-      <FormControl isRequired>
+      <FormControl id="passwoed" isRequired>
         <FormLabel>Password</FormLabel>
         <InputGroup size="md">
           <Input
@@ -191,7 +191,7 @@ const SignupComponemt = () => {
       </FormControl>
 
       {/*Comfirm Passrord input field */}
-      <FormControl isRequired>
+      <FormControl id="cm_password" isRequired>
         <FormLabel>Comfirm Password</FormLabel>
         <InputGroup size="md">
           <Input
@@ -208,7 +208,7 @@ const SignupComponemt = () => {
       </FormControl>
 
       {/* Uplode Picture field */}
-      <FormControl isRequired>
+      <FormControl id="picture" isRequired>
         <FormLabel>Upload Your Picture</FormLabel>
 
         <Input

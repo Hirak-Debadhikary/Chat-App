@@ -28,6 +28,7 @@ function ChatComponent() {
       {chats.map((Chat) => (
         <div key={Chat._id}> {Chat.chatName}</div>
       ))}
+      <h1>This is chat page</h1>
     </div>
   );
 }
